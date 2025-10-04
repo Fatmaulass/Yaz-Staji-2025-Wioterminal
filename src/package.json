@@ -1,0 +1,14 @@
+{
+  "dependencies": {
+    "@noble/secp256k1": "^2.3.0",
+    "@serialport/parser-readline": "^13.0.0",
+    "body-parser": "^2.2.0",
+    "cors": "^2.8.5",
+    "crypto-js": "^4.2.0",
+    "elliptic": "^6.6.1",
+    "express": "^5.1.0",
+    "noble-secp256k1": "^1.2.14",
+    "serialport": "^13.0.0",
+    "ws": "^8.18.3"
+  }
+}
