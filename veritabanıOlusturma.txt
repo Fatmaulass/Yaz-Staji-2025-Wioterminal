@@ -1,0 +1,44 @@
+create database blockchain;
+USE `blockchain_db`;
+-- `users` tablosu: Kullanıcı bilgilerini ve bakiyelerini tutar.
+CREATE TABLE `users` (
+    `id` INT AUTO_INCREMENT PRIMARY KEY,
+    `public_key` VARCHAR(255) NOT NULL UNIQUE,
+    `private_key` VARCHAR(255) NOT NULL,
+    `balance` DECIMAL(18, 2) NOT NULL
+);
+
+-- `blocks` tablosu: Blok zincirindeki her bir bloğu saklar.
+CREATE TABLE `blocks` (
+    `id` INT AUTO_INCREMENT PRIMARY KEY,
+    `hash` VARCHAR(64) NOT NULL UNIQUE,
+    `previous_hash` VARCHAR(64) NOT NULL,
+    `timestamp` BIGINT NOT NULL,
+    `nonce` INT NOT NULL,
+    `difficulty` INT NOT NULL,
+    `miner_reward` DECIMAL(18, 2) NOT NULL
+);
+
+-- `pending_transactions` tablosu: Henüz bir bloğa eklenmemiş işlemleri tutar.
+CREATE TABLE `pending_transactions` (
+    `id` INT AUTO_INCREMENT PRIMARY KEY,
+    `sender_address` VARCHAR(255) DEFAULT NULL,
+    `receiver_address` VARCHAR(255) NOT NULL,
+    `amount` DECIMAL(18, 2) NOT NULL,
+    `fee` DECIMAL(18, 2) NOT NULL DEFAULT 0,
+    `timestamp` BIGINT NOT NULL,
+    `signature` VARCHAR(128) DEFAULT NULL
+);
+
+-- `transactions` tablosu: Bir bloğa dahil edilmiş, yani onaylanmış işlemleri tutar.
+CREATE TABLE `transactions` (
+    `id` INT AUTO_INCREMENT PRIMARY KEY,
+    `block_id` INT NOT NULL,
+    `sender_address` VARCHAR(255) DEFAULT NULL,
+    `receiver_address` VARCHAR(255) NOT NULL,
+    `amount` DECIMAL(18, 2) NOT NULL,
+    `fee` DECIMAL(18, 2) NOT NULL DEFAULT 0,
+    `timestamp` BIGINT NOT NULL,
+    `signature` VARCHAR(128) DEFAULT NULL,
+    FOREIGN KEY (`block_id`) REFERENCES `blocks`(`id`)
+);
